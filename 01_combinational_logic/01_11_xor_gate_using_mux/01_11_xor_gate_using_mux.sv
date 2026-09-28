@@ -24,6 +24,8 @@ module xor_gate_using_mux
     output o
 );
 
+
+  assign o = a ? (b ? 0 : 1) : (b ? 1 : 0);
   // Task:
   // Implement xor gate using instance(s) of mux,
   // constants 0 and 1, and wire connections

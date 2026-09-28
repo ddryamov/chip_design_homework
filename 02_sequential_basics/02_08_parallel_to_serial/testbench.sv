@@ -10,8 +10,7 @@ module testbench;
     begin
         clk = '0;
 
-        forever
-            # 500 clk = ~ clk;
+        forever #500 clk = ~ clk;
     end
 
     logic rst;
@@ -113,7 +112,7 @@ module testbench;
             // Uncomment the following line
             // to generate a VCD file and analyze it using GTKwave or Surfer
 
-            // $dumpvars;
+            $dumpvars;
         `endif
 
         parallel_valid <= 1'b0;
@@ -145,7 +144,7 @@ module testbench;
 
             parallel_valid <= 1'b0;
 
-            // repeat (width-1) @ (posedge clk);
+            repeat (width-1) @ (posedge clk);
 
             # 10
 
@@ -187,3 +186,4 @@ module testbench;
     end
 
 endmodule
+

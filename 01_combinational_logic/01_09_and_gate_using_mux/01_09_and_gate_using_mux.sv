@@ -24,6 +24,8 @@ module and_gate_using_mux
     output o
 );
 
+  assign o = a ? (b ? 1 : 0) : 0;
+
   // Task:
   // Implement and gate using instance(s) of mux,
   // constants 0 and 1, and wire connections

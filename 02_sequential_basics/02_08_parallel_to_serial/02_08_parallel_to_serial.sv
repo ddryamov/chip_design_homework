@@ -17,17 +17,48 @@ module parallel_to_serial
     output logic               serial_valid,
     output logic               serial_data
 );
-    // Task:
-    // Implement a module that converts multi-bit parallel value to the single-bit serial data.
-    //
-    // The module should accept 'width' bit input parallel data when 'parallel_valid' input is asserted.
-    // At the same clock cycle as 'parallel_valid' is asserted, the module should output
-    // the least significant bit of the input data. In the following clock cycles the module
-    // should output all the remaining bits of the parallel_data.
-    // Together with providing correct 'serial_data' value, module should also assert the 'serial_valid' output.
-    //
-    // Note:
-    // Check the waveform diagram in the README for better understanding.
 
 
+
+    parameter CNTR = $clog2(width + 1);
+
+    logic [CNTR - 1:0] cntr = '0;
+
+    logic [width - 1:0] shift_reg;
+
+    reg busy_reg = '0;
+    reg reg_serial_data = '0;
+    logic after_parallel;
+    
+    assign serial_valid = parallel_valid | after_parallel;
+    assign busy = busy_reg;
+    assign serial_data = parallel_valid  ? parallel_data[0] : shift_reg[0];
+
+    always_ff @ (posedge clk) begin
+      if (rst) begin
+        cntr <= '0;
+        shift_reg <= '0;
+        busy_reg <= '0;
+      end
+      if (parallel_valid && cntr == '0) begin
+        shift_reg <= parallel_data >> 1;
+        cntr <= cntr + 3'd1;
+        busy_reg <= '1;
+        after_parallel <= '1;
+      end
+      if (after_parallel)  begin
+        shift_reg <= shift_reg >> 1;
+        cntr <= cntr + 3'd1;
+      end
+      if (cntr == 3'd7) begin
+        cntr <= '0;
+        busy_reg <= '0;
+        after_parallel <= '0;
+      end
+
+    end
+   
+     
 endmodule
+
+

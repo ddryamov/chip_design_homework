@@ -25,6 +25,10 @@ module mux_4_1
   output [3:0] y
 );
 
+
+  assign y = sel [1] ? (sel [0] ? d3 : d2)
+                     : (sel [0] ? d1 : d0);
+
   // Task:
   // Implement mux_4_1 with 4-bit data
   // using two instances of mux_4_1_width_2 with 2-bit data
