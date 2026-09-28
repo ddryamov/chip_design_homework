@@ -28,11 +28,11 @@ module serial_to_parallel
    //Note:
    //Check the waveform diagram in the README for better understanding.
 
-    logic [width-1:0] shift_reg;
+    logic [width - 1:0] shift_reg;
     logic [2:0] valid_cntr;
 
     assign parallel_valid = (valid_cntr == (width - 1)) && serial_valid;
-    assign parallel_data = parallel_valid ? {serial_data, shift_reg[width - 1 : 1]} : '0;
+    assign parallel_data = parallel_valid ? {serial_data, shift_reg[width - 1: 1]} : '0;
 
     always_ff @(posedge clk) begin
         if (rst) begin

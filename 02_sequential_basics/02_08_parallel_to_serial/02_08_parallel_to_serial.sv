@@ -23,7 +23,6 @@ module parallel_to_serial
     parameter CNTR = $clog2(width + 1);
 
     logic [CNTR - 1:0] cntr = '0;
-
     logic [width - 1:0] shift_reg;
 
     reg busy_reg = '0;
